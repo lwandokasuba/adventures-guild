@@ -2,10 +2,11 @@ import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { dateTransformer } from '../../utils/transformers';
 import { Rank } from '../../utils/enums';
+import { BaseEntityWithOutID } from '../../utils/common';
 
 @ObjectType()
 @Entity()
-export class User {
+export class User extends BaseEntityWithOutID {
   @Field(() => ID, { description: 'Unique identifier for the user' })
   @PrimaryGeneratedColumn('uuid')
   uid: string;
