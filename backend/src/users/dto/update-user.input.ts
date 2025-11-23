@@ -1,10 +1,11 @@
+import { IsNotEmpty, IsUUID } from 'class-validator';
 import { CreateUserInput } from './create-user.input';
-import { InputType, PartialType, OmitType, Field, ID } from '@nestjs/graphql';
+import { InputType, PartialType, Field, ID } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateUserInput extends PartialType(
-  OmitType(CreateUserInput, ['rank'] as const),
-) {
+export class UpdateUserInput extends PartialType(CreateUserInput) {
   @Field(() => ID)
+  @IsNotEmpty()
+  @IsUUID()
   uid: string;
 }

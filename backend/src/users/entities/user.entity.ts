@@ -1,8 +1,9 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { dateTransformer } from '../../utils/transformers';
 import { Rank } from '../../utils/enums';
 import { BaseEntityWithOutID } from '../../utils/common';
+import { Change } from '../../changes/entities/change.entity';
 
 @ObjectType()
 @Entity()
@@ -42,4 +43,9 @@ export class User extends BaseEntityWithOutID {
     default: Rank.F,
   })
   rank: Rank;
+
+  // Relationships
+  @Field(() => [Change], { nullable: true })
+  @OneToMany(() => Change, (change) => change.user, { nullable: true })
+  changes?: Change[];
 }

@@ -2,6 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Change {
+  createdDate: DateTime!
+  updatedDate: DateTime!
+  id: ID!
+  referenceId: ID!
+  from: String!
+  to: String!
+  user: User
+  changedBy: User
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type User {
   createdDate: DateTime!
   updatedDate: DateTime!
@@ -16,12 +32,8 @@ type User {
   lastName: String!
   dateOfBirth: DateTime!
   rank: Rank!
+  changes: [Change!]
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 """The ranks available for users"""
 enum Rank {
@@ -60,5 +72,6 @@ input UpdateUserInput {
   middleName: String
   lastName: String
   dateOfBirth: DateTime
+  rank: Rank
   uid: ID!
 }

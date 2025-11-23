@@ -5,6 +5,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DatabaseModule } from './database.module';
 import { UsersModule } from './users/users.module';
 import { join } from 'path';
+// import { ChangesService } from './changes/changes.service';
+// import { ChangesModule } from './changes/changes.module';
 
 @Module({
   imports: [
@@ -21,6 +23,6 @@ import { join } from 'path';
     UsersModule,
   ],
   controllers: [],
-  providers: [],
+  // providers: [ChangesService],
 })
 export class AppModule {}

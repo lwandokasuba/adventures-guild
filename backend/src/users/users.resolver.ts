@@ -4,7 +4,7 @@ import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { getSelectedFields } from '../utils/grapqhl-typeorm-projection';
+import { getQueryStructure } from '../utils/graphql-typeorm-projection';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -21,8 +21,8 @@ export class UsersResolver {
 
   @Query(() => [User], { name: 'users' })
   findAll(@Info() info: graphql.GraphQLResolveInfo) {
-    const fieldsToSelect = getSelectedFields(info);
-    return this.usersService.findAll(fieldsToSelect);
+    const gql = getQueryStructure(info);
+    return this.usersService.findAll(gql);
   }
 
   @Query(() => User, { name: 'user' })
@@ -30,8 +30,8 @@ export class UsersResolver {
     @Args('uid', { type: () => ID }) id: string,
     @Info() info: graphql.GraphQLResolveInfo,
   ) {
-    const fieldsToSelect = getSelectedFields(info);
-    return await this.usersService.findOne(id, fieldsToSelect);
+    const gql = getQueryStructure(info);
+    return await this.usersService.findOne(id, gql);
   }
 
   @Mutation(() => User)
