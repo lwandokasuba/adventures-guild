@@ -16,6 +16,7 @@ export const databaseProviders = [
         database: configService.get<string>('POSTGRES_DB'),
         entities: [User],
         synchronize: configService.get<boolean>('SYNCHRONIZE_DB'),
+        logging: true,
       });
 
       return dataSource.initialize();

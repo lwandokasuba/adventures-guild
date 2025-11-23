@@ -20,18 +20,24 @@ export class UsersService {
     });
   }
 
-  async findAll() {
-    return await this.usersRepository.find().catch(() => {
-      const message = `Error finding users`;
-      throw new Error(message);
-    });
+  async findAll(selectFields?: string[]) {
+    return await this.usersRepository
+      .find({
+        select: selectFields as (keyof User)[],
+      })
+      .catch(() => {
+        const message = `Error finding users`;
+        throw new Error(message);
+      });
   }
 
-  async findOne(uid: string) {
-    return await this.usersRepository.findOne({ where: { uid } }).catch(() => {
-      const message = `Error finding user ${uid}`;
-      throw new Error(message);
-    });
+  async findOne(uid: string, selectFields?: string[]) {
+    return await this.usersRepository
+      .findOne({ where: { uid }, select: selectFields as (keyof User)[] })
+      .catch(() => {
+        const message = `Error finding user ${uid}`;
+        throw new Error(message);
+      });
   }
 
   async update(uid: string, updateUserInput: UpdateUserInput) {
