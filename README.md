@@ -1,8 +1,8 @@
-# 🛡️ Adventures Guild API
+# 🛡️ Adventures Guild Project
 
 Welcome to the **Adventures Guild**, a project built to bring the organizational and ranking structure of the classic **isekai** adventurer's guild into a modern, virtual platform.
 
-This API acts as the core system for tracking adventurer status, managing the job board, and linking real-world skills to a fantastical profile.
+This Project acts as the core system for tracking adventurer status, managing the job board, and linking real-world skills to a fantastical profile.
 
 ---
 
@@ -58,6 +58,53 @@ The API is built using modern architectural patterns to ensure scalability and r
 * **TypeORM:** Manages data persistence and complex relationships across entities.
 * **Transactional Integrity:** Critical operations, such as changing a user's rank and logging that change, are wrapped in database transactions to guarantee atomicity and data safety.
 * **Polymorphic Relationships:** The `Change` log employs a polymorphic association pattern to reference any entity type (User, Quest, Location, etc.) without creating rigid database foreign key constraints for every single possibility.
+
+---
+
+## 🗺️ Architectural Roadmap
+
+The Adventures Guild is transitioning to a **microservices-based architecture** supported by a modern, decoupled frontend.
+
+### Current Architecture
+* **Monolith Core:** NestJS (GraphQL) handles all core business logic (Users, Ranks, Changes) and data access.
+
+### Future Architecture
+
+The system will transition to an **Event-Driven Architecture (EDA)** where microservices communicate via an internal message broker.
+
+| Component | Technology | Role |
+| :--- | :--- | :--- |
+| **Frontend** | **Next.js** | Provides a modern, responsive user interface for adventurers to view their profiles, manage quests, and interact with the job board. |
+| **Core API Gateway** | NestJS/GraphQL | Remains the primary entry point for the frontend, consolidating data from various microservices. |
+| **Event Bus** | Redis/Kafka/RabbitMQ | The central messaging layer for all microservices to publish and consume events (e.g., `RankUpEvent`, `QuestCompletedEvent`). |
+| **Microservices** | NestJS/Custom | Dedicated services to handle specific domains (e.g., Quest Management, Social Sync, Title Generation). |
+
+---
+
+## 🔮 Future Works and Expansion
+
+I plan to expand the project into two major areas to increase performance, user experience, and feature complexity.
+
+### 1. 🌐 Next.js Frontend Application
+
+A dedicated, decoupled frontend application will be developed using **Next.js** to provide a superior, dynamic user experience.
+
+* **User Dashboard:** A personalized hub for adventurers to track their progress, view active quests, and manage their profile.
+* **Server-Side Rendering (SSR) & Static Site Generation (SSG):** Leveraging Next.js capabilities for performance gains, especially for public-facing profiles or static guild data.
+* **GraphQL Client:** Utilizing tools like Apollo Client or Relay to efficiently consume the data exposed by the NestJS GraphQL API.
+
+### 2. ⚡ Event-Driven Microservices
+
+To handle complex, asynchronous actions like rank calculation, quest management, and external data synchronization, the core application will be broken down into dedicated microservices communicating via an **Event Bus**.
+
+| Microservice | Purpose | Example Event Consumption |
+| :--- | :--- | :--- |
+| **Quest Service** | Manages the creation, assignment, and completion of all Quests. | Consumes `UserRankUpdateEvent` to adjust quest eligibility caches. |
+| **Title Service** | Responsible for generating and assigning unique **Titles** (e.g., 'Slayer of Bugs') based on achievements. | Consumes `QuestCompletedEvent` to check for title-earning criteria. |
+| **Social Sync Service** | Handles integration with external platforms (e.g., LinkedIn) to verify and sync adventurer **Skills**. | Consumes a `ProfileCreatedEvent` to trigger initial external data fetch. |
+| **Notification Service** | Sends real-time updates and notifications (e.g., "Your Rank has increased!") to users via websockets or email. | Consumes **any** major system event (e.g., `RankUpEvent`, `QuestFailedEvent`). |
+
+This shift ensures the core **User/Rank API** remains highly focused, while complex, scalable features like Quest management and external synchronization are handled by independent, resilient services.
 
 ---
 
