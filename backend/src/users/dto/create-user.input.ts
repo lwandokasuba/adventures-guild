@@ -3,11 +3,13 @@ import { Type } from 'class-transformer';
 import {
   IsDate,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
+import { Rank } from '../../utils/enums';
 
 @InputType()
 export class CreateUserInput {
@@ -38,4 +40,9 @@ export class CreateUserInput {
   @Type(() => Date)
   @IsDate()
   dateOfBirth: Date;
+
+  @Field(() => Rank, { nullable: true })
+  @IsOptional()
+  @IsEnum(Rank)
+  rank?: Rank;
 }

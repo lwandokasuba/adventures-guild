@@ -1,6 +1,7 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { dateTransformer } from '../../utils/transformers';
+import { Rank } from '../../utils/enums';
 
 @ObjectType()
 @Entity()
@@ -32,4 +33,12 @@ export class User {
     transformer: dateTransformer,
   })
   dateOfBirth: Date;
+
+  @Field(() => Rank)
+  @Column({
+    type: 'enum',
+    enum: Rank,
+    default: Rank.F,
+  })
+  rank: Rank;
 }
