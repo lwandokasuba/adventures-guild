@@ -3,6 +3,9 @@
 # ------------------------------------------------------
 
 type User {
+  createdDate: DateTime!
+  updatedDate: DateTime!
+
   """Unique identifier for the user"""
   uid: ID!
 

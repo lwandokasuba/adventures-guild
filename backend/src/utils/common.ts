@@ -3,8 +3,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Field, ID } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
+@ObjectType({ isAbstract: true })
 export class BaseEntityWithOutID {
   @Field(() => Date)
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -15,6 +16,7 @@ export class BaseEntityWithOutID {
   updatedDate: Date;
 }
 
+@ObjectType({ isAbstract: true })
 export class BaseEntity extends BaseEntityWithOutID {
   @Field(() => ID)
   @PrimaryGeneratedColumn('uuid')
